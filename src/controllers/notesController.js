@@ -46,6 +46,8 @@ export async function getAllNotes(req, res, next) {
             totalPages,
             notes,
         });
+        const notes = await Note.find().sort({ createdAt: -1 });
+        res.status(200).json(notes);
     } catch (err) {
         next(err);
     }
@@ -82,6 +84,7 @@ export async function updateNote(req, res, next) {
 
         const updated = await Note.findByIdAndUpdate(noteId, req.body, {
             new: true,
+            returnDocument: 'after',
             runValidators: true,
         });
 
