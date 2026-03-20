@@ -17,18 +17,22 @@ const userSchema = new mongoose.Schema(
             required: true,
             minlength: 8,
         },
+        avatar: {
+            type: String,
+            default: 'https://ac.goit.global/fullstack/react/default-avatar.jpg',
+        },
     },
     { timestamps: true }
 );
 
-// Видаляти password перед відправкою у JSON
+// remove password in responses
 userSchema.methods.toJSON = function toJSON() {
     const obj = this.toObject();
     delete obj.password;
     return obj;
 };
 
-// username за замовчуванням = email
+// username auto = email
 userSchema.pre('save', function preSave(next) {
     if (!this.username) {
         this.username = this.email;

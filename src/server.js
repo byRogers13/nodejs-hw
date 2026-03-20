@@ -12,6 +12,9 @@ import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
+import userRouter from './routes/userRoutes.js';
+
+
 dotenv.config();
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -31,6 +34,7 @@ app.use(
 );
 
 app.use(authRouter);
+app.use(userRouter);
 app.use(notesRouter);
 
 app.use(notFoundHandler);

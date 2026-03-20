@@ -88,7 +88,7 @@ export async function updateNote(req, res, next) {
         const updated = await Note.findOneAndUpdate(
             { _id: noteId, userId: req.user._id },
             req.body,
-            { returnDocument: 'after', runValidators: true }
+            { new: true, runValidators: true }
         );
 
         if (!updated) {
