@@ -1,10 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
 import { errors } from 'celebrate';
 
 import { connectMongoDB } from './db/connectMongoDB.js';
 import notesRouter from './routes/notesRoutes.js';
+import authRouter from './routes/authRoutes.js';
 
 import { logger } from './middleware/logger.js';
 import { notFoundHandler } from './middleware/notFoundHandler.js';
@@ -18,15 +20,21 @@ const app = express();
 
 app.use(logger);
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
 
+// Важливо для cookies з браузера / фронта
+app.use(
+    cors({
+        origin: true,
+        credentials: true,
+    })
+);
+
+app.use(authRouter);
 app.use(notesRouter);
 
 app.use(notFoundHandler);
-
-// celebrate validation errors handler
 app.use(errors());
-
 app.use(errorHandler);
 
 async function startServer() {
