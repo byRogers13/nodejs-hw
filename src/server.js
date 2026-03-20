@@ -29,9 +29,6 @@ app.use(errors());
 
 app.use(errorHandler);
 
-app.use(errorHandler);
-
-// Важливо: підключитися до MongoDB ДО старту сервера
 async function startServer() {
     await connectMongoDB();
 
